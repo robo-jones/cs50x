@@ -1,0 +1,4 @@
+0. It allows any board size between 3x3 and 9x9 (inclusive)
+1. The board is a 2-dimensional array
+2. greet() is called to greet the player at the game's start
+3. init(), draw(), move(), and won() must be implemented
