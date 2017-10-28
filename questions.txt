@@ -1,0 +1,12 @@
+1.  stdint.h is the header file for a library that contains the various integer primitives that bmp.h uses (uint8_t, int32_t etc.)
+2.  These types are essentially an abstraction for various fixed-width integer types that exist on different platforms, allowing programmers to write cross-platform code easier
+3.  BYTE: 1, DWORD: 4, LONG: 4, WORD: 2
+4.  A bitmap must start with the letters "BM" (6677 in decimal, 0x424d in hex)
+5.  bfSize is the size of the entire bitmap file, biSize is the size of the BITMAPINFOHEADER portion of the file.
+6.  If biHeight is negative, it means that the pixels are stored top-to-bottom, left-to-right
+7.  biBitCount specifies the color depth
+8.  Either could return NULL if the user doesn't have the correct permissions to access the file/location. Line 24 could also return null if the provided filename doesn't exist.
+9.  The third argument is always 1 because that argument specifies how many bytes to read at a time, and copy is designed to read the files one byte at a time in order to ensure that the BITMAPFILEHEADER and BITMAPINFOHEADER structs are populated correctly (the different fields contain different numbers of bytes).
+10. padding will be 3
+11. fseek moves the provided pointer (first argument) by <second argument> bytes, relative to <third argument>
+12. SEEK_CUR means to use the current position that the provided pointer is at
