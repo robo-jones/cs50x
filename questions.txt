@@ -1,0 +1,43 @@
+0.  An invented long word said to mean a lung disease caused by inhaling very fine ash and sand dust; created in a deliberate
+    attempt to make the longest word in the English language.
+1.  getrusage() returns a list of statistics about the resources used by a process, its children, or a thread. Most notably for this
+    problem, it allows speller.c to see how much actual CPU time was used by a process
+2.  16
+3.  Passing a variable by value results in creating a copy of that variable; for structs, this can result in a lot of unnecessary
+    CPU usage (for the copy operation), as well as excessive memory usage.
+4.  The outermost 'for' loop uses a bit of clever syntatic trickery to iterate over every character in the file:
+    'int c = fgetc(fp);' will read the first character in the file, 'c != EOF;' will keep iterating through the loop until c is
+    equal to the special EOF character (i.e. the end of the file), and the final 'c = fgetc(fp)' will read the next character in the
+    file at the end of each iteration. This works because the file pointed to by fp is accessed as a stream, so each time it is
+    read, the stream will automatically advance itself to the next unread byte in the file.
+
+    The first 'if' statement simply checks if c is a letter or apostrophe. If so, it appends it to the current word (using index to
+    keep track of the current position in the array), and then increments index to prepare for the next character.
+
+    The next 'else if' statement checks if c is a numeral, and, if so, uses a 'while' loop to look through each character in the
+    file, only stopping when it reaches either the end of the file, or a non-alphanumeric character (i.e. some kind of whitespace or
+    punctuation, indicating a the end of the alphanumeric "word"). It then sets index back to 0 to get ready to read the next word.
+
+    The final 'else if' statement will only be true when c is a non-alphanumeric character (again, punctuation or whitespace,
+    indicating a word boundary) *and* index is > 0, indicating that there are already characters stored in word (i.e. this is the
+    end of the current word, not the beginning of a new one). When this happens, it does several things:
+        -add the special string terminator character '\0' to the end of word, so that it can be read properly as a string (and to
+        make sure to ignore any leftover characters, since we never initialize/reset word)
+        -check if the word is misspelled
+        -update various counters for words checked, misspellings, time taken to check the file, etc.
+        -print out the word, if it was misspelled
+        -reset index to 0 in order to prepare for the next word
+
+    At this point, the loop will then repeat back at the beginning.
+5.  fscanf() with "%s" will match an entire sequence of *any* non-whitespace characters, including periods, commas, and punctuation.
+    Because of this, it is prone to a few issues:
+        -if the input file misses a space between periods/commas, it could potentially exceed the maximum word size in our program,
+        causing segfaults when trying to write to word[]. Additionally, this can result in trying to spellcheck two words that are
+        "stuck together" with some punctuation, which will be interpreted as a misspelling, even if both words are correct.
+        -it will not ignore numeric characters or punctuation, which means that speller.c will almost certainly violate the
+        specifications of the problem if the source text is anything besides a whitespace-separated list of words.
+    Due to these issues, it would be necessary to manually check the output of fscanf() character-by-character, which means that
+    we might as well just check the file character-by-character from the beginning.
+6.  The parameters to check() and load() are pointers to variables, which means that check() and load() have the ability to modify
+    them. However, there is absolutely no reason to ever modify them, so declaring them as 'const' prevents some potentially
+    disasterous bugs by telling the compiler to throw an error if the program attempts to change those variables.
