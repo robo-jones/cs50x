@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Results for {{ symbol }}
+{% endblock %}
+
+{% block main %}
+    <table class="table">
+        <tr>
+            <th>Ticker Symbol</th>
+            <th>Company Name</th>
+            <th>Price</th>
+        </tr>
+        <tr>
+            <td>{{ symbol }}</td>
+            <td>{{ name }}</td>
+            <td>{{ price }}</td>
+        </tr>
+    </table>
+    <form action="{{ url_for('quote') }}" method="post">
+        <fieldset>
+            <div class="form-group">
+                <h4>Lookup Another Symbol</h4>
+                <input autocomplete="off" autofocus class="form-control" name="symbol" placeholder="Ticker Symbol" type="text"/>
+                <button class="btn btn-default" type="submit">Search</button>
+            </div>
+        </fieldset>
+    </form>
+{% endblock %}

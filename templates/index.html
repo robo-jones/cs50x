@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Account Information
+{% endblock %}
+
+{% block main %}
+    <h2>Your Account</h2>
+    {% if positions == None %}
+        <h4>You don't own any stock right now. Why not <a href="{{ url_for('buy') }}">buy some</a>?</h4>
+    {% else %}
+        <h4>Positions</h4>
+        <table class="table table-striped">
+            <tr>
+                <th>Ticker Symbol</th>
+                <th>Shares Owned</th>
+                <th>Total Cost</th>
+                <th>Current Price/Share</th>
+                <th>Total Value</th>
+                <th>Gain/Loss</th>
+            </tr>
+            {% for position in positions %}
+                <tr>
+                    <td>{{ position["symbol"] }}</td>
+                    <td>{{ position["shares"] }}</td>
+                    <td>{{ position["cost"] }}</td>
+                    <td>{{ position["currentPrice"] }}</td>
+                    <td>{{ position["totalValue"] }}</td>
+                    <td>{{ position["gain"] }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+    <h4>Balances</h4>
+    <table class="table">
+        <tr>
+            <th>Long Stock Value</th>
+            <th>Cash</th>
+            <th>Total</th>
+        </tr>
+        <tr>
+            <td>{{ user["totalStockValue"] }}</td>
+            <td>{{ user["cash"] }}</td>
+            <td>{{ user["totalWorth"] }}</td>
+        </tr>
+    </table>
+{% endblock %}
