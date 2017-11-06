@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Transaction History
+{% endblock %}
+
+{% block main %}
+    <h2>Your Transaction History</h2>
+    {% if purchases == None %}
+        <h4>No transactions to display</h4>
+    {% else %}
+        <table class="table table-striped">
+            <tr>
+                <th>Date</th>
+                <th>Type</th>
+                <th>Ticker Symbol</th>
+                <th>Shares</th>
+                <th>Price per Share</th>
+                <th>Total Amount</th>
+            </tr>
+            {% for transaction in transactions %}
+                <tr>
+                    <td>{{ transaction["date"] }}</td>
+                    <td>{{ transaction["type"] }}</td>
+                    <td>{{ transaction["symbol"] }}</td>
+                    <td>{{ transaction["shares"] }}</td>
+                    <td>{{ transaction["price"] }}</td>
+                    <td>{{ transaction["amount"] }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+{% endblock %}
